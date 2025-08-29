@@ -1,15 +1,15 @@
 <template>
   <div class="controls">
-    <button @click="onInitialize" :disabled="isRunning">Init Horses</button>
-    <button @click="onGenerate" :disabled="isRunning">Generate Schedule</button>
-    <button @click="onStart" :disabled="!canStart">Start</button>
-    <button @click="onReset">Reset</button>
+    <button data-testid="init" @click="onInitialize" :disabled="isRunning">Init Horses</button>
+    <button data-testid="generate" @click="onGenerate" :disabled="isRunning">Generate Schedule</button>
+    <button data-testid="start" @click="onStart" :disabled="!canStart">Start</button>
+    <button data-testid="reset" @click="onReset">Reset</button>
   </div>
   
   <div class="meta">
     <div>Status: {{ status }}</div>
     <div v-if="currentRound">Current Round: {{ currentRound.id }} ({{ currentRound.distance }}m)</div>
-    <div v-if="isRacing && currentRound">Elapsed: {{ elapsedTime.toFixed(1) }}s</div>
+    <div v-if="isRunning && currentRound">Elapsed: {{ elapsedTime.toFixed(1) }}s</div>
   </div>
 </template>
 
@@ -26,6 +26,9 @@ export default {
     },
     isRunning() {
       return this.status === 'running'
+    },
+    isRacing() {
+      return this.isRunning
     },
     elapsedTime() {
       return this.raceElapsedTime
